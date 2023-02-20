@@ -1,0 +1,268 @@
+\documentclass[en,hazy,blue,12pt,device = normal]{elegantnote}
+\usepackage[breakable]{tcolorbox}
+\usepackage{amsmath,amsthm,amssymb,bm,xcolor,relsize}
+\usepackage{../spdefs}
+\tcbset{breakable}
+\pagecolor{white}
+
+\title{Stochastic Process Exercise week 2}
+\author{Tianlu Zhu \\ 2020571005}
+% \institute{ShanghaiTech}
+\date{}
+\begin{document}
+\maketitle
+Chap1: 8, 13, 18
+
+   Chap2: 30, 50, 61, 77
+
+   Chap3: 5, 8, 19, 23, 37, 46, 47, 96
+
+\begin{enumerate}
+    \item[1.8] If $P(E)=0.9$ and $P(F)=0.8$, show that $P(E F) \geq 0.7$. In general, show that
+    $$
+    P(E F) \geq P(E)+P(F)-1
+    $$
+    This is known as Bonferroni's inequality.
+    \begin{tcolorbox}
+        \sol\\
+        Since that \[P(E) + P(F) = P(E\cup F) + P(EF)\]
+        We have:
+        \begin{align*}
+            P(EF)&=P(E) + P(F) - P(E\cup F)\\
+            &\geq P(E) + P(F) - 1
+        \end{align*}
+    \end{tcolorbox}
+
+    \item[1,13] The dice game craps is played as follows. The player throws two dice, and if the sum is seven or eleven, then she wins. If the sum is two, three, or twelve, then she loses. If the sum is anything else, then she continues throwing until she either throws that number again (in which case she wins) or she throws a seven (in which case she loses). Calculate the probability that the player wins.
+    \begin{tcolorbox}
+        \sol \\
+        Let \(A\) be the event of sum7 or 8, \(B\) be the event of sum 2, 3 or 4, \(C\) be the other result, \(D\) be the event of win.
+        \begin{align*}
+            P(D) &= P(A) + P(C) P(D|C) = P(A) + P(C)P(D)\\
+            P(A) &= \frac{7}{36} + \frac{5}{36} = \frac{1}{3}\\
+            P(B) &= \frac{1}{36} + \frac{2}{36} + \frac{3}{36} = \frac{1}{6}\\
+            P(C) &= 1-P(A)-P(B) = \frac{1}{2}
+% sfa
+        \end{align*}
+        So \(P(D) = \dfrac{2}{3}\)
+
+
+
+        % Let you be the god.
+
+    \end{tcolorbox}
+    
+    \item[1.18]Assume that each child who is born is equally likely to be a boy or a girl. If a family has two children, what is the probability that both are girls given that (a) the eldest is a girl, (b) at least one is a girl?
+    \begin{tcolorbox}
+        \sol
+        % (a)\(\frac{1}{2}\) (b)\(\frac 1 3\)
+
+        Let G stands for girl and B for boy. The question has four results that own equal probability: \((B,B),(B,G),(G,B),(G,G)\). Then \(P(\text{The eldest is a girl}) = 1/2, P(\text{at least one is a girl}) = 3/4\), \(P(\text{both are girls}) = 1/4\) .
+
+        (a) \begin{align*}
+            P(\text{both are girls}|\text{The eldest is a girl}) = \frac{1/4}{1/2} = \frac 1 2
+        \end{align*}
+
+        (b)\begin{align*}
+            P(\text{both are girls}|\text{at least one is a girl}) = \frac{1/4}{3/4} = \frac 1 3
+        \end{align*}
+    \end{tcolorbox}
+
+    \item[2.30]Let $X$ be a Poisson random variable with parameter $\lambda$. Show that $P\{X=i\}$ increases monotonically and then decreases monotonically as $i$ increases, reaching its maximum when $i$ is the largest integer not exceeding $\lambda$.
+    
+    Hint: Consider $P\{X=i\} / P\{X=i-1\}$.
+
+    \begin{tcolorbox}
+        \sol\\
+        Notate that: \[f(i) = P\{X=i\} / P\{X=i-1\} = \frac{\lambda
+        ^i}{i!} \times \frac{(i+1)!}{\lambda^{i+1}} = \frac{i+1}{\lambda}\]
+        Then \begin{align*}
+            f(i) \begin{cases}
+                \leq 1 \text{ when } i+1 \leq \lambda \\
+                > 1 \text{ when } i+1 > \lambda
+            \end{cases}
+        \end{align*}$P\{X=i\}$ increases monotonically and then decreases monotonically as $i$ increases, reaching its maximum when $i$ is the largest integer not exceeding $\lambda$.
+    \end{tcolorbox}
+    
+    \item[50]Let $c$ be a constant. Show that\\
+    (a) $\operatorname{Var}(c X)=c^2 \operatorname{Var}(X)$;\\
+    (b) $\operatorname{Var}(c+X)=\operatorname{Var}(X)$.
+    \begin{tcolorbox}
+        \begin{align*}
+            \Var{cX} &= \mean{\left(cX - \mean{cX}\right)^2} \\
+            &=  \mean{\left(cX - c\mean{X}\right)^2} \\
+            &= \mean{c^2\left(X - \mean{X}\right)^2} \\
+            &= c^2\mean{\left(X - \mean{X}\right)^2} \\
+            &= c^2\Var{x}\\
+            \Var{c+X} &= \mean{\left(c+X - \mean{c+x}\right)^2}\\
+            &= \mean{\left(X-\mean{X}\right)^2} \\
+            &= \Var{X}
+        \end{align*}
+    \end{tcolorbox}
+
+    \item[2.61] Let $X_1, X_2, \ldots$ be a sequence of independent identically distributed continuous random variables. We say that a record occurs at time $n$ if $X_n>\max \left(X_1, \ldots\right.$, $\left.X_{n-1}\right)$. That is, $X_n$ is a record if it is larger than each of $X_1, \ldots, X_{n-1}$. Show
+    
+    (a) $P\{$ a record occurs at time $n\}=1 / n$;
+
+    (b) $E$ [number of records by time $n]=\sum_{i=1}^n 1 / i$;
+
+    (c) $\operatorname{Var}$ (number of records by time $n)=\sum_{i=1}^n(i-1) / i^2$;
+
+    (d) Let $N=\min \{n: n>1$ and a record occurs at time $n\}$. Show $E[N]=\infty$.
+
+    {\bf Hint:} For (b) and (c) represent the number of records as the sum of indicator (that is, Bernoulli) random variables.
+
+    \begin{tcolorbox}
+        \sol\\
+    \end{tcolorbox}
+
+    \item[2.77] Suppose that $X$ is a random variable with mean 10 and variance 15 . What can we say about $P\{5<X<15\}$ ?
+    \begin{tcolorbox}
+        \sol\\
+        The precise value of \(P\{5<X<15\}\) cannot be known. But we can do an estimation. By Chebyshev's inequality,
+        \begin{align*}
+            P\{5<X<15\} &= 1 - P\{|X - \mu| \geq 5\} \\
+            &= 1 - P\{|X - \mu | \geq \sqrt{5/3}\sigma\} \\
+            &\geq 1 - \frac 3 5 = \frac 2 5
+        \end{align*}
+    \end{tcolorbox}
+
+    \item[3.5] An urn contains three white, six red, and five black balls. Six of these balls are randomly selected from the urn. Let $X$ and $Y$ denote respectively the number of white and black balls selected. Compute the conditional probability mass function of $X$ given that $Y=3$. Also compute $E[X \mid Y=1]$.
+    \begin{tcolorbox}
+        \sol
+        \begin{align*}
+            \mean{X|Y=3} &= 3\times P(X=3|Y=3) + 2\times P(X = 2|Y=3) + 1\times P(X= 1|Y=3) \\
+            &= 3\times 1/\binom{9}{3} + 2\times \binom{3}{2}\binom{6}{1}/\binom{9}{3} +1\times \binom{3}{1}\binom{6}{2} /\binom{9}{3}\\
+            &= 1\\
+            \mean{X|Y=1} &= 3\times P(X=3|Y=1) + 2\times P(X = 2|Y=1) + 1\times P(X= 1|Y=1)\\
+            &=3\times \binom{6}{2}/\binom{9}{5} + 2\times \binom{3}{2}\times\binom{6}{3}/\binom{9}{5} +1\times \binom{3}{1}\times\binom{6}{4} /\binom{9}{5}\\
+            &= \frac{3}{5}
+        \end{align*}
+    \end{tcolorbox}
+    \item[3.8]An unbiased die is successively rolled. Let $X$ and $Y$ denote, respectively, the number of rolls necessary to obtain a six and a five. Find (a) $E[X]$, (b) $E[X \mid Y=1]$, (c) $E[X \mid Y=5]$.
+    \begin{tcolorbox}
+        \sol\\
+        (a) \(E(X) = 1/6\times 1 + 5/6\times (E(X)+1), E(X) = 6\)\\
+        (b) \(E(X|Y = 1) = 1 + E(X) = 7\)\\
+        (c) \begin{align*}
+            E(X|Y=5) &= \sum_{i=1}^4 i\times P(X=i|Y=5)+ P(X > 5|Y=5)(5+E(X))\\
+            &= \sum_{i=1}^4 i\times\left(\frac 1 5\right)\times\left(\frac 4 5\right)^{i-1} + \left(\frac 4 5\right)^{5}\times(5+6)
+        \end{align*}
+    \end{tcolorbox}
+
+    \item[3.19] Prove that if $X$ and $Y$ are jointly continuous, then
+    $$
+    E[X]=\int_{-\infty}^{\infty} E[X \mid Y=y] f_Y(y) \dd y
+    $$
+
+    \begin{tcolorbox}
+        \sol
+        \begin{align*}
+            \mean{X} &= \mean{\mean{X|Y}}\\
+            &=\int_{-\infty}^{\infty} E[X \mid Y=y] f_Y(y) \dd y
+        \end{align*}
+    \end{tcolorbox}
+
+    \item[3.23]A coin having probability $p$ of coming up heads is successively flipped until two of the most recent three flips are heads. Let $N$ denote the number of flips. (Note that if the first two flips are heads, then $N=2$.) Find $E[N]$.
+    \begin{tcolorbox}
+        \sol
+        \begin{align*}
+            \mean{N} &= p\times\left(p \times 2 + (1-p) p\times 3 + (1-p)^2 \times (3+\mean{N}) \right) + (1-p) \times (1+\mean{N})
+        \end{align*}
+        Solved that:
+    \end{tcolorbox}
+
+    \item[3.37]A manuscript is sent to a typing firm consisting of typists $A, B$, and $C$. If it is typed by $A$, then the number of errors made is a Poisson random variable with mean 2.6; if typed by $B$, then the number of errors is a Poisson random variable with mean 3; and if typed by $C$, then it is a Poisson random variable with mean 3.4. Let $X$ denote the number of errors in the typed manuscript. Assume that each typist is equally likely to do the work.
+    
+    (a) Find $E[X]$.
+
+    (b) Find $\operatorname{Var}(X)$.
+
+    \begin{tcolorbox}
+        \sol
+
+        (a) \(\mean{X} = \frac 1 3 (2.6+3+3.4) = 3\)
+
+        (b) Let \(Y\) be the random variable of typist:
+        \begin{align*}
+            \Var{X} &= \mean{\Var{X|Y}} + \Var{\mean{X|Y}}\\
+            &= \mean{\Var{X|Y}}+ \mean{(\mean{X|Y} - \mean{X})^2}\\
+            &= \frac 1 3 (2.6+3+3.4) + \frac 1 3 \left((2.6-3)^2+ (3-3)^2 + (3.4-3)^2\right)\\
+            &\approx 3.1066
+        \end{align*}
+    \end{tcolorbox}
+
+    \item[3.46](a) Show that
+    $$
+    \operatorname{Cov}(X, Y)=\operatorname{Cov}(X, E[Y \mid X])
+    $$
+    (b) Suppose, that, for constants $a$ and $b$,
+    $$
+    E[Y \mid X]=a+b X
+    $$
+    Show that
+    $$
+    b=\operatorname{Cov}(X, Y) / \operatorname{Var}(X)
+    $$
+
+    \begin{tcolorbox}
+        \sol
+
+        (a) Since that:
+        \begin{align*}
+            \mean{XY} &= \int_X\int_Y xyf(x,y)\dd x \dd y \\
+            &= \int_X\int_Y xf_X(x)y f_{Y|X} (y,x)\dd x \dd y \\
+            &= \int_X xf_X(x)\mean{Y|X = x}\dd x \\
+            &= \mean{X\mean{Y|X}}
+        \end{align*}
+        So:
+        \begin{align*}
+            \Cov{X,Y} &= \mean{XY} - \mean{X}\mean{Y} \\
+            &= \mean{X\mean{Y|X}} - \mean{X}\mean{\mean{Y|X}}\\
+            &= \Cov{X, \mean{Y|X}}
+        \end{align*}
+
+        (b)
+        \begin{align*}
+            \Cov{X,Y} &= \Cov{X,a+bX} \\
+            &= \mean{X(a+bX)} - \mean{X}\mean{a+bX} \\
+            &= b\mean{X^2} +a\mean{X} -b\mean{X}^2 - a\mean{X}\\
+            &= b\Var{X}
+        \end{align*}
+        So that:
+        $$
+        b=\operatorname{Cov}(X, Y) / \operatorname{Var}(X)
+        $$
+    \end{tcolorbox}
+
+    \item[3.47] If $E[Y \mid X]=1$, show that
+$$
+\operatorname{Var}(X Y) \geqslant \operatorname{Var}(X)
+$$
+
+    \begin{tcolorbox}
+        \sol
+
+
+    \end{tcolorbox}
+
+    \item[3.96]Consider a large population of families, and suppose that the number of children in the different families are independent Poisson random variables with mean \(\lambda\). Show that the number of siblings of a randomly chosen child is also Poisson distributed with mean \(\lambda\).
+    
+    \begin{tcolorbox}
+        \sol
+
+        Let the acquired random variable be \(Y\), and \(X_n = \#\)population of families. Since that 
+        \begin{align*}
+            P(X_n = k) = \frac{\lambda^k e^{-\lambda}}{k!}
+        \end{align*}
+        Then 
+        \begin{align*}
+            P(Y = k-1) = \cfrac{\cfrac{\lambda^k e^{-\lambda}}{k!}\times k}{\mathlarger{\mathlarger{\sum}}_{n = 0}^\infty n \cfrac{\lambda^n e^{-\lambda}}{n!}}
+            = \frac{\lambda^{k-1} e^{-\lambda}}{(k-1)!}
+        \end{align*}
+        And the Poisson distribution showed.
+    \end{tcolorbox}
+\end{enumerate}
+
+
+\end{document}

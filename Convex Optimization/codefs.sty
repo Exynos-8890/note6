@@ -1,0 +1,61 @@
+\usepackage{amsmath,amsthm,amssymb,bm}
+
+\newcommand{\limn}{\lim _{n\to \infty}}
+
+\DeclareMathOperator{\N}{\mathbb N}
+\DeclareMathOperator{\R}{\mathbb R}
+\DeclareMathOperator{\Z}{\mathbb Z}
+\DeclareMathOperator{\Q}{\mathbb Q}
+
+% --------------------FOR CONVEX OPTIMIZTION CODEFS ONLY--------------------
+\newcommand{\dom}{{\textbf{dom}\ }}
+\renewcommand{\int}{{\textbf{int}\ }}
+\newcommand{\cl}{{\textbf{cl}\ }}
+\newcommand{\bd}{{\textbf{bd}\ }}
+\newcommand{\tr}{{\textbf{tr}\ }}
+\renewcommand{\det}{{\operatorname{det}\ }}
+
+% --------------------FOR CONVEX OPTIMIZTION CODEFS ONLY--------------------
+
+\newcommand{\normt}[1]{\Vert #1 \Vert_2}
+
+\newcommand{\abs}[1]{\left|#1\right|}
+\newcommand{\norm}[1]{\left|\left|#1\right|\right|}
+\newcommand{\st}{\text{ s.t. }}
+\newcommand{\sol}{\textbf{Solution:}}
+% \newcommand{\comment}[1]{\quad\text{(#1)}}
+\newcommand{\dd}{\text{d}}
+
+\newcommand{\blue}[1]{\textcolor{blue}{#1}}
+\newcommand{\red}[1]{\textcolor{red}{#1}}
+
+\newcommand{\der}[1]{\frac{d}{d #1}}
+\newcommand{\intR}{\int_{-\infty}^{+\infty}}
+\newcommand{\series}[1]{\sum_{n\geqslant #1}}
+\newcommand{\sumn}{\sum_{n=1}^{\infty}}
+\newcommand{\sumi}{\sum_{i=1}^{n}}
+
+\newcommand{\hyper}[3]{F\left(\left.\begin{matrix}#1\\#2\end{matrix}\right|#3\right)}
+\newcommand{\fall}[1]{\underline{#1}}
+\newcommand{\rise}[1]{\overline{#1}}
+
+\DeclareMathOperator{\Ber}{\operatorname{Ber}}
+\DeclareMathOperator{\Bin}{\operatorname{Bin}}
+\DeclareMathOperator{\Geo}{\operatorname{Geo}}
+\DeclareMathOperator{\Cauchy}{\operatorname{Cauchy}}
+\DeclareMathOperator{\Pois}{\operatorname{Pois}}
+\DeclareMathOperator{\Normal}{\operatorname N}
+\DeclareMathOperator{\Exp}{\operatorname{Exp}}
+\DeclareMathOperator{\Beta}{\operatorname{Beta}}
+\newcommand{\follows}{\sim}
+
+% \normalpdf{\mu}{\sigma}{x}
+\newcommand{\normalpdf}[3]{\frac{1}{#2\sqrt{2\pi}}\exp\left(-\frac12\left(\frac{#3-#1}{#2}\right)^2\right)}
+% \stdnormalpdf{x}
+\newcommand{\stdnormalpdf}[1]{\frac{1}{\sqrt{2\pi}}\exp\left(-\frac12#1^2\right)}
+% \gammapdf{\alpha}{\beta}{x}
+\newcommand{\gammapdf}[3]{\frac{#2^{#1}}{\Gamma(#1)}#3^{#1-1}e^{-#2#3}}
+
+% \DeclareMathOperator{\elsewhere}{\text{elsewhere}}
+% \DeclareMathOperator{\otherwise}{\text{otherwise}}
+% \DeclareMathOperator{\cond}{\quad\text{if }}

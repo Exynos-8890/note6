@@ -1,0 +1,25 @@
+# the first page
+ This is a test file of Rmarkdown.
+
+# Engaged in R code
+```{r}
+print("hello world")
+a <- 1
+```
+
+Note the differenct between ` run chunk ` and `run above`.
+```{r}
+# a <- 1
+print(a)
+```
+
+Also, the plot
+```{R}
+h <- c(1, 2, 3, 4, 5, 6)
+M <- c("A", "B", "C", "D", "E", "F")
+barplot(h,
+    names.arg = M, xlab = "X", ylab = "Y",
+    col = "#00cec9", main = "Chart", border = "#fdcb6e"
+)
+
+```

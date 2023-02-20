@@ -1,0 +1,122 @@
+\documentclass[en,hazy,black,12pt,device = normal]{elegantnote}
+\usepackage[breakable]{tcolorbox}
+\usepackage{amsmath,amsthm,amssymb,bm,xcolor}
+\usepackage{../codefs}
+\tcbset{breakable}
+\pagecolor{white}
+
+\title{Convex Optimization Exercise week1\&2}
+\author{Tianlu Zhu \\ 2020571005}
+% \institute{ShanghaiTech}
+\date{}
+\begin{document}
+\maketitle
+
+\section*{Week 1}
+\subsection*{Problem 1}
+Consider the function $f: \mathbb{S}^n \rightarrow \mathbb{R}$ defined as
+$$
+f(X)=\log \operatorname{det} X, \quad  \dom f=\mathbb{S}_{++}^n \text {. }
+$$
+Compute the second order approximation of $f$.
+
+\begin{tcolorbox}
+    \sol
+
+    \begin{align*}
+        \log \det Z &= \log \det (X+ \Delta X) \\
+        &= \log \det \left(X^{1/2} (I + X^{1/2} \Delta X X^{1/2} )X^{1/2}\right)\\
+        &= \log \det X^{1/2} + \log \det (I + X^{1/2} \Delta X X^{1/2} ) + \log \det X^{1/2} \\
+        &= \log\det X + \sumi\log (1+ \lambda _i)\\
+        &\approx \log\det X + \tr(X^{-1}\Delta X)
+    \end{align*}
+    % Where \(\lambda _i\) is the \(i\)-th eigenvalue of \(X^{1/2} \Delta X X^{1/2} \)
+    \begin{align*}
+        (X+\Delta X)^{-1} & =\left(X^{1 / 2}\left(I+X^{-1 / 2} \Delta X X^{-1 / 2}\right) X^{1 / 2}\right)^{-1} \\
+        & =X^{-1 / 2}\left(I+X^{-1 / 2} \Delta X X^{-1 / 2}\right)^{-1} X^{-1 / 2} \\
+        & \approx X^{-1 / 2}\left(I-X^{-1 / 2} \Delta X X^{-1 / 2}\right) X^{-1 / 2} \\
+        & =X^{-1}-X^{-1} \Delta X X^{-1}\\
+        % \begin{aligned}
+            f(Z) & =f(X+\Delta X) \\
+            & \approx f(X)+\operatorname{tr}\left(X^{-1} \Delta X\right)-(1 / 2) \operatorname{tr}\left(X^{-1} \Delta X X^{-1} \Delta X\right) \\
+            & \approx f(X)+\operatorname{tr}\left(X^{-1}(Z-X)\right)-(1 / 2) \operatorname{tr}\left(X^{-1}(Z-X) X^{-1}(Z-X)\right)
+            % \end{aligned}
+    \end{align*}
+\end{tcolorbox}
+
+\section*{Week 2}
+\subsection*{Problem1 (1)}
+Suppose that \(C \subset \R^n\) is convex, then \(\int C, \cl C\) are also convex.
+
+\begin{tcolorbox}
+    \sol
+
+    Fist we consider the interior point. Suppose \(x_1,x_2 \in \int C\), \(\forall \epsilon_1,\epsilon_2\),
+    \begin{align*}
+        \left\{y_1 \mid\|y_1-x_1\|_2 \leq \epsilon_1\right\} \subseteq C\\
+        \left\{y_2 \mid\|y_2-x_2\|_2 \leq \epsilon_2\right\} \subseteq C
+    \end{align*}
+    Then:
+    \begin{align*}
+        &\left\{y \mid\|y-\left(tx_1+(1-t) x_2\right)\|_2 \leq \epsilon\right\}\\
+        =&\left\{ty_1+(1-t)y_2 \mid\|\left(t(y_1 - x_1)+(1-t) (y_2 - x_2)\right)\|_2 \leq \epsilon\right\} 
+    \end{align*}
+    Since \(\normt{t(y_1 - x_1)+(1-t) (y_2 - x_2)}\leq \normt{t(y_1 - x_1)} + \normt{(1-t) (y_2 - x_2)}\leq \epsilon\), one obtain that  \(tx_1+(1-t) x_2 \in\int C\). That is, \(\int C\) is also convex.
+    
+    Then we consider the closure. We adapt the limit definition of closure: the limit point of all \(x_n \in C\), and the proof is as the \(\int C\).
+\end{tcolorbox}
+
+\subsection*{Problem 2 (Ex 2.2)}
+
+Show that a set is convex if and only if its intersection with any line is convex. Show that a set is affine if and only if its intersection with any line is affine.
+
+\begin{tcolorbox}
+    \sol
+
+    For convex set, two convex set take intersection is also convex, and a line is convex, so the "only if" is trivial. Conversely, any line intersect with a set is convex, that is, every line segments between any two point are in the set, so it is convex.
+
+    For affine set, two affine set take intersection is also convex, and a line is affine, so the "only if" is trivial. Conversely, any line intersect with a set is affine, that is, every lines between any two point are in the set, so it is affine.
+\end{tcolorbox}
+
+\subsection*{Problem 3 (Ex 2.7)}
+\textit{Voronoi description of halfspace.} Let $a$ and $b$ be distinct points in $\mathbf{R}^n$. Show that the set of all points that are closer (in Euclidean norm) to $a$ than $b$, i.e., $\left\{x \mid\|x-a\|_2 \leq\|x-b\|_2\right\}$, is a halfspace. Describe it explicitly as an inequality of the form $c^T x \leq d$. Draw a picture.
+
+\begin{tcolorbox}
+    \sol
+    \begin{align*}
+        &\normt{x-a} \leq \normt{x-b} \\
+        \Leftrightarrow\quad& (x-a)^T(x-a) \leq (x-b)^T(x-b) \\
+        \Leftrightarrow\quad& x^Tx -a^Tx -x^Ta -a^Ta \leq x^Tx -b^Tx -x^Tb -b^Tb \\
+        \Leftrightarrow\quad& 2(b-a)^T x \leq b^Tb-a^Ta
+    \end{align*}
+    So it is a halfspace.
+\end{tcolorbox}
+
+\subsection*{Problem 4 (Ex 2.18)}
+\textit{Invertible linear-fractional functions.} Let $f: \mathbf{R}^n \rightarrow \mathbf{R}^n$ be the linear-fractional function
+$$
+f(x)=(A x+b) /\left(c^T x+d\right), \quad \operatorname{dom} f=\left\{x \mid c^T x+d>0\right\} .
+$$
+Suppose the matrix
+$$
+Q=\left[\begin{array}{cc}
+A & b \\
+c^T & d
+\end{array}\right]
+$$
+is nonsingular. Show that $f$ is invertible and that $f^{-1}$ is a linear-fractional mapping. Give an explicit expression for $f^{-1}$ and its domain in terms of $A, b, c$, and $d$. \textit{Hint.} It may be easier to express $f^{-1}$ in terms of $Q$.
+
+\begin{tcolorbox}
+    \sol
+
+    Denote
+    \begin{align*}
+        Q=\left[\begin{array}{cc}
+            A & b \\
+            c^T & d
+            \end{array}\right] \in \mathbf{R}^{(m+1) \times(n+1)}
+    \end{align*}
+    Simply let \(f^{-1} (x) = P^{-1}\left(Q^{-1}\left(P(x)\right)\right)\), and this is the projection under \(Q^{-1}\).
+\end{tcolorbox}
+
+\end{document}
