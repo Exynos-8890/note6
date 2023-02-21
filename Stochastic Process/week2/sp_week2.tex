@@ -1,4 +1,4 @@
-\documentclass[en,hazy,blue,12pt,device = normal]{elegantnote}
+\documentclass[en,hazy,blue,12pt,device = pad]{elegantnote}
 \usepackage[breakable]{tcolorbox}
 \usepackage{amsmath,amsthm,amssymb,bm,xcolor,relsize}
 \usepackage{../spdefs}
@@ -147,7 +147,8 @@ Chap1: 8, 13, 18
         (b) \(E(X|Y = 1) = 1 + E(X) = 7\)\\
         (c) \begin{align*}
             E(X|Y=5) &= \sum_{i=1}^4 i\times P(X=i|Y=5)+ P(X > 5|Y=5)(5+E(X))\\
-            &= \sum_{i=1}^4 i\times\left(\frac 1 5\right)\times\left(\frac 4 5\right)^{i-1} + \left(\frac 4 5\right)^{5}\times(5+6)
+            &= \sum_{i=1}^4 i\times\left(\frac 1 5\right)\times\left(\frac 4 5\right)^{i-1} + \left(\frac 4 5\right)^{5}\times(5+6)\\
+            &\approx 4.91808
         \end{align*}
     \end{tcolorbox}
 
@@ -243,7 +244,12 @@ $$
 
     \begin{tcolorbox}
         \sol
-
+        \begin{align*}
+            \Var{XY} &= \Var{\mean{XY|X}} + \mean{\Var{XY|X}}\\
+            &= \Var{X\mean{Y|X}} + \mean{X^2\Var{Y|X}}\\
+            &=\Var{X} + \mean{X^2\Var{Y|X}}\\
+            &\geq \Var{X}
+        \end{align*}
 
     \end{tcolorbox}
 
