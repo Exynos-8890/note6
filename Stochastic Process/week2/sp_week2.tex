@@ -1,9 +1,10 @@
-\documentclass[en,hazy,blue,12pt,device = pad]{elegantnote}
+\documentclass[en,hazy,blue,12pt,device = normal]{elegantnote}
 \usepackage[breakable]{tcolorbox}
-\usepackage{amsmath,amsthm,amssymb,bm,xcolor,relsize}
+\usepackage{amsmath,amsthm,amssymb,bm,xcolor,relsize,bbm}
 \usepackage{../spdefs}
 \tcbset{breakable}
 \pagecolor{white}
+\newcommand{\idty}[1]{\mathbbm{1}_{#1}}
 
 \title{Stochastic Process Exercise week 2}
 \author{Tianlu Zhu \\ 2020571005}
@@ -17,7 +18,7 @@ Chap1: 8, 13, 18
 
    Chap3: 5, 8, 19, 23, 37, 46, 47, 96
 
-\textbf{IT IS NOT FINISHED YET.}
+% \textbf{IT IS NOT FINISHED YET.}
 \begin{enumerate}
     \item[1.8] If $P(E)=0.9$ and $P(F)=0.8$, show that $P(E F) \geq 0.7$. In general, show that
     $$
@@ -114,7 +115,31 @@ Chap1: 8, 13, 18
     {\bf Hint:} For (b) and (c) represent the number of records as the sum of indicator (that is, Bernoulli) random variables.
 
     \begin{tcolorbox}
-        \sol\\
+        \sol
+
+        (a) Since \(X_i\) are i.i.d distributed, so every r.v. won the first position have the probability \(1/n\).
+
+        (b) We notate every record as an indicator function, that is,
+        \begin{align*}
+            \idty{i} = \begin{cases}
+                1,\quad \text{a record occurs at time n}\\
+                0,\quad \text{a record do not occurs at time n}
+            \end{cases}
+        \end{align*}
+        so,
+        \begin{align*}
+            \mean{A} = \sumi \mean{\idty{i}} = \sumi P(i) = \sumi 1/i
+        \end{align*}
+
+        (c) Since that \(\idty{i}\) are independent,
+        \begin{align*}
+            \Var{A} = \sumi \Var{\idty{i}} = \sumi \left(1/i \times (i-1)/i\right)
+        \end{align*}
+
+        (d) \begin{align*}
+            \mean{N} &= \sumn \left(nP(n)\prod_{i = 1}^n \left(1-P(i)\right)\right)\\
+            &= \sumn \frac 1 n \to \infty
+        \end{align*}
     \end{tcolorbox}
 
     \item[2.77] Suppose that $X$ is a random variable with mean 10 and variance 15 . What can we say about $P\{5<X<15\}$ ?
@@ -172,6 +197,7 @@ Chap1: 8, 13, 18
             \mean{N} &= p\times\left(p \times 2 + (1-p) p\times 3 + (1-p)^2 \times (3+\mean{N}) \right) + (1-p) \times (1+\mean{N})
         \end{align*}
         Solved that:
+        \[\mean{N} = \frac{2p-p^2}{2-2p^2+p^3}\]
     \end{tcolorbox}
 
     \item[3.37]A manuscript is sent to a typing firm consisting of typists $A, B$, and $C$. If it is typed by $A$, then the number of errors made is a Poisson random variable with mean 2.6; if typed by $B$, then the number of errors is a Poisson random variable with mean 3; and if typed by $C$, then it is a Poisson random variable with mean 3.4. Let $X$ denote the number of errors in the typed manuscript. Assume that each typist is equally likely to do the work.
