@@ -112,7 +112,7 @@
         "*.bcf",
         "*.xml",
     ],
-    "latex-workshop.latex.recipe.default": "xelatex",
+    "latex-workshop.latex.recipe.default": "latex * 2",
     "latex-workshop.synctex.afterBuild.enabled": true,
     "latex-workshop.latex.autoBuild.run": "onSave",
     "latex-workshop.view.pdf.viewer": "tab",
