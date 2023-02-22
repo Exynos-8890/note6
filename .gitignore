@@ -1,5 +1,6 @@
 .DS_Store
 *.html
+settings.json
 
 
 ## Core latex/pdflatex auxiliary files:
