@@ -38,7 +38,7 @@
     \end{align*}
     Also, the variance should be
     \begin{align*}
-        \operatorname{Var}(I) &= \frac{1}{n^2} \sum_{i=1}^n \operatorname{Var}\left(\tilde{\phi}\left(x^{(i)}\right)\right) \\
+        \operatorname{Var}(I) &= \frac{1}{n^2} \sum_{i=1}^n \operatorname{Var}\left(\tilde{\phi}\left(x\right)\right) \\
         &\approx \frac{1}{n(n-1)} \sum_{i=1}^n \left(\tilde{\phi}\left(x^{(i)}\right) - \hat I\right)
     \end{align*}
     % \vspace{1em}
@@ -68,7 +68,7 @@
         \column{0.5\textwidth}
         \begin{block}{Pros}
             \begin{itemize}
-                \item Almost Easiest way to generate a sample
+                \item Naive way to generate a sample
                 \item ?
             \end{itemize}
         \end{block}
@@ -106,6 +106,31 @@
 
 \end{frame}
 
+\begin{frame}
+    \frametitle{Proof of Algorithm}
+    Let \(U \sim \operatorname{Unif}[0,1]\) and \(Y\) owns PDF \(g(\omega)\), one obtain that
+    \vspace*{-.5\baselineskip}
+    \begin{align*}
+        P\left(U \leq \frac{f(Y)}{Mg(Y)}\bigg |Y = y  \right) = \frac{f(y)}{Mg(y)}
+        % \vspace*{-.5\baselineskip}
+    \end{align*}
+    \vspace*{-.5\baselineskip}
+    The total probability is:
+    \begin{align*}
+        P\left(U \leq \frac{f(Y)}{Mg(Y)} \right) &= \int _{-\infty}^\infty\frac{f(y)}{Mg(y)}g(y) dy = \frac 1 M
+    \end{align*}
+    \vspace*{-.5\baselineskip}
+    By Bayesian's formula,
+    \begin{align*}
+        &\quad P\left(Y = y \bigg | U \leq \frac{f(Y)}{Mg(Y)}  \right)= P(A|B) = \frac{p(B|A)P(A)}{P(B)}\\
+        &= M\int_{-\infty}^ y  P\left(U \leq \frac{f(Y)}{Mg(Y)}\bigg |Y = \omega \leq y  \right)g(\omega) d \omega\\
+        &= M\int_{-\infty}^ y   \frac{f(\omega)}{Mg(\omega)} g(\omega) d\omega = F(y)
+    \end{align*}
+
+    
+
+\end{frame}
+
 % \begin{frame}{Algorithm}<presentation:0>
 %     \scriptsize
 %     \begin{algorithm}[H]
@@ -127,9 +152,9 @@
 % \end{frame}
 
 \begin{frame}[fragile]
-    \frametitle{{An Implementation of the Algorithm}}
+    \frametitle{{An Implementation of the Algorithm in R}}
     \begin{minipage}{\linewidth}
-        \begin{lstlisting}{language=R}
+        \begin{lstlisting}{style = R}
 N <- 50000
 M <- 3.858
 y <- runif(N, min = 0, max = 2)
@@ -144,6 +169,41 @@ curve(6 * (x - 0.5)^2 / 7, from = 0,
     to = 2, add = TRUE, col = "red")
     \end{lstlisting}
     \end{minipage}
+
+\end{frame}
+
+\begin{frame}
+    \frametitle{Output}
+
+    \begin{center}
+        \includegraphics[width = .9\linewidth]{image2.png}
+    \end{center}
+
+\end{frame}
+
+\begin{frame}
+    \frametitle{Pros and Cons}
+    \begin{columns}
+        \column{0.5\textwidth}
+        \begin{block}{Pros}
+            \begin{itemize}
+                \item Deal with almost every distribution
+                \item ?
+            \end{itemize}
+        \end{block}
+        
+        \column{0.5\textwidth}
+        \begin{block}{Cons}
+            \begin{itemize}
+                \item Lack of efficient.
+                \item Do not perform perfectly with unbounded PDF, i.e. Beta distribution.
+            \end{itemize}
+        \end{block}
+
+        
+    \end{columns}
+
+    
 
 \end{frame}
 
