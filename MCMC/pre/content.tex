@@ -16,7 +16,7 @@
     \begin{align*}
     \int_D \phi(x) d x
     \end{align*}
-    for which there is no closed analytic solution. If the integrand has the form
+    for which there is no closed analytic solution. If the integration has the form
     \begin{align*}
     \phi(x)=\tilde{\phi}(x) f(x)
     \end{align*}
@@ -126,9 +126,24 @@
 %         \end{algorithm}
 % \end{frame}
 
-\begin{frame}{An Implementation of the Algorithm}
-    More environments such as
-
+\begin{frame}[fragile]
+    \frametitle{{An Implementation of the Algorithm}}
+    \begin{minipage}{\linewidth}
+        \begin{lstlisting}{language=R}
+N <- 50000
+M <- 3.858
+y <- runif(N, min = 0, max = 2)
+u <- runif(N, min = 0, max = 1)
+gy <- 0.5
+fy <- 6 * (y - 0.5)^2 / 7
+x <- y[u < fy / gy / M]
+sample <- length(x)
+hist(x, breaks = 50, freq = FALSE, col = "#adabab",
+main = "f(x) = 6(x - 0.5)^2/7")
+curve(6 * (x - 0.5)^2 / 7, from = 0, 
+    to = 2, add = TRUE, col = "red")
+    \end{lstlisting}
+    \end{minipage}
 
 \end{frame}
 
