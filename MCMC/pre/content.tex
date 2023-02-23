@@ -9,7 +9,7 @@
     In the presentation, I would first introduce Monte Carlo Integration, which requires enormous random sample. Then we introduce common ways of sampling from a given distribution, including Transformation method, Accept-rejection method, and Markov Chain Monte Carlo Algorithm. In each method I would show code implementation, analyse the pros and cons, and a brief proof.
     
 \end{frame}
-\section{Monte Carlo Integration}
+\section[MC Integration]{Monte Carlo Integration}
 \begin{frame}
     \frametitle{MC Integration}
     Suppose we want to evaluate an integral
@@ -68,8 +68,9 @@
         \column{0.5\textwidth}
         \begin{block}{Pros}
             \begin{itemize}
-                \item Naive way to generate a sample
-                \item ?
+                \item Naive way to generate a group of sample
+                % \item ?
+                \\
             \end{itemize}
         \end{block}
         
@@ -108,18 +109,18 @@
 
 \begin{frame}
     \frametitle{Proof of Algorithm}
-    Let \(U \sim \operatorname{Unif}[0,1]\) and \(Y\) owns PDF \(g(\omega)\), one obtain that
-    \vspace*{-.5\baselineskip}
+    Let \(U \sim \operatorname{Unif}[0,1]\) and \(Y\) owns PDF \(g(\omega) = F'(\omega)\), one obtain:
+    % \vspace*{-.5\baselineskip}
     \begin{align*}
         P\left(U \leq \frac{f(Y)}{Mg(Y)}\bigg |Y = y  \right) = \frac{f(y)}{Mg(y)}
         % \vspace*{-.5\baselineskip}
     \end{align*}
-    \vspace*{-.5\baselineskip}
+    % \vspace*{-.5\baselineskip}
     The total probability is:
     \begin{align*}
         P\left(U \leq \frac{f(Y)}{Mg(Y)} \right) &= \int _{-\infty}^\infty\frac{f(y)}{Mg(y)}g(y) dy = \frac 1 M
     \end{align*}
-    \vspace*{-.5\baselineskip}
+    % \vspace*{-.5\baselineskip}
     By Bayesian's formula,
     \begin{align*}
         &\quad P\left(Y = y \bigg | U \leq \frac{f(Y)}{Mg(Y)}  \right)= P(A|B) = \frac{p(B|A)P(A)}{P(B)}\\
@@ -153,8 +154,8 @@
 
 \begin{frame}[fragile]
     \frametitle{{An Implementation of the Algorithm in R}}
-    \begin{minipage}{\linewidth}
-        \begin{lstlisting}{style = R}
+    \framesubtitle<overlay specification>{f(y) = 6 * (y - 0.5)^2 / 7}
+        \begin{lstlisting}{language = r,caption={An Implementation of the Algorithm in R}}
 N <- 50000
 M <- 3.858
 y <- runif(N, min = 0, max = 2)
@@ -168,7 +169,7 @@ main = "f(x) = 6(x - 0.5)^2/7")
 curve(6 * (x - 0.5)^2 / 7, from = 0, 
     to = 2, add = TRUE, col = "red")
     \end{lstlisting}
-    \end{minipage}
+
 
 \end{frame}
 
@@ -207,29 +208,16 @@ curve(6 * (x - 0.5)^2 / 7, from = 0,
 
 \end{frame}
 
-\section{Beamer More}
+\section[MCMC]{Markov Chain Monte Carlo Algorithm}
+\subsection{Background}
 
-\subsection{Split Screen}
-
-\begin{frame}{Minipage}
-    \begin{minipage}{0.5\linewidth}
-        \begin{figure}[h]
-            \includegraphics[width=\textwidth]{imgs/pythagorean.jpg}
-        \end{figure}
-    \end{minipage}%
-    \hfill
-    \begin{minipage}{0.4\linewidth}
-        \begin{enumerate}
-            \item item
-            \item another
-            \item more
-            \begin{itemize}
-                \item first
-                \item second
-                \item third
-            \end{itemize}
-        \end{enumerate}
-    \end{minipage}
+\begin{frame}{Background}
+    Property of Markov Chain:
+    \begin{itemize}
+        \item \(P(X_n = x_n |X_{n-1} = x_{n-1}\cdots X_{1} = x_1) = P(X_n = x_n |X_{n-1} = x_{n-1})\) Only depends on last state.
+        \item Invertible: If \(X_1,X_2\cdots X_n\) is MC, so do \(X_n,X_{n-1}\cdots X_1\).
+        \item 
+    \end{itemize}
 \end{frame}
 
 \begin{frame}{Columns}
