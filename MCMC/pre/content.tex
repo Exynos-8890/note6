@@ -1,14 +1,14 @@
 \frame[plain]{\titlepage}
 % \frame{\frametitle{Outline}\tableofcontents}
 
-\section{Introduction}
+% \section{Introduction}
 
-\begin{frame}
-    \frametitle{Introduction}
+% \begin{frame}
+%     \frametitle{Introduction}
     
-    In the presentation, I would first introduce Monte Carlo Integration, which requires enormous random sample. Then we introduce common ways of sampling from a given distribution, including Transformation method, Accept-rejection method, and Markov Chain Monte Carlo Algorithm. In each method I would show code implementation, analyse the pros and cons, and a brief proof.
+%     In the presentation, I would first introduce Monte Carlo Integration, which requires enormous random sample. Then we introduce common ways of sampling from a given distribution, including Transformation method, Accept-rejection method, and Markov Chain Monte Carlo Algorithm. In each method I would show code implementation, analyse the pros and cons, and a brief proof.
     
-\end{frame}
+% \end{frame}
 \section[MC Integration]{Monte Carlo Integration}
 \begin{frame}
     \frametitle{MC Integration}
@@ -36,6 +36,7 @@
     \begin{align*}
     \int_D \phi(x) d x=E[\tilde{\phi}(X)] \approx \frac{1}{n} \sum_{i=1}^n \tilde{\phi}\left(x^{(i)}\right)=\hat{I}
     \end{align*}
+    \pause
     Also, the variance should be
     \begin{align*}
         \operatorname{Var}(I) &= \frac{1}{n^2} \sum_{i=1}^n \operatorname{Var}\left(\tilde{\phi}\left(x\right)\right) \\
@@ -55,6 +56,8 @@
 
     The easiest distribution for computer to generate is \(\operatorname{Unif}[0,1]\). If \(X\) owns CDF \(F(\cdot)\), Then \(F(X) \sim \operatorname{Unif}[0.1]\). By \textit{inversion}, setting \(X \sim F^{-1}(U)\), which \(U \sim \operatorname{Unif}[0,1]\). Then From the uniform distribution sample we can generate sample follows \(F(\cdot)\).
     \vspace*{1em}
+
+    \pause
 
     Consider discrete random variable, simply left
     \[F^{-1} (u) = \min\left\{x:F(x)\geq u\right\}\]
@@ -86,7 +89,7 @@
     
 \end{frame}
 \section{Accept-Reject method}
-\subsection{Algorithm}
+\subsection{Intuition}
 
 \begin{frame}
     \frametitle{Intuition}
@@ -106,8 +109,29 @@
     \end{itemize}
 
 \end{frame}
+\subsection{Algorithm and Proof}
+\begin{frame}
+    \frametitle{Algorithm}
+    \vspace{-\baselineskip}
+    \begin{figure}
+        \begin{center}
+            \includegraphics[width = .58\linewidth]{image1.png}
+        \end{center}
+    \end{figure}
+    \vspace{-\baselineskip}
+    \begin{enumerate}
+        \item Produce a sample \(y\) from \(g(\cdot)\)
+        \item Produce a sample \(u\) from \(\operatorname{Unif}(0,1)\)
+        \item Do comparasion. If \(u \leq \frac{f(y)}{Mg(y)}\), accept the sample. Otherwise, reject the sample.
+        \item Back to the first step unless we already have enough sample.
+    \end{enumerate}
+
+    
+
+\end{frame}
 
 \begin{frame}
+    \pause
     \frametitle{Proof of Algorithm}
     Let \(U \sim \operatorname{Unif}[0,1]\) and \(Y\) owns PDF \(g(\omega) = F'(\omega)\), one obtain:
     % \vspace*{-.5\baselineskip}
@@ -115,11 +139,13 @@
         P\left(U \leq \frac{f(Y)}{Mg(Y)}\bigg |Y = y  \right) = \frac{f(y)}{Mg(y)}
         % \vspace*{-.5\baselineskip}
     \end{align*}
+    \pause
     % \vspace*{-.5\baselineskip}
     The total probability is:
     \begin{align*}
         P\left(U \leq \frac{f(Y)}{Mg(Y)} \right) &= \int _{-\infty}^\infty\frac{f(y)}{Mg(y)}g(y) dy = \frac 1 M
     \end{align*}
+    \pause
     % \vspace*{-.5\baselineskip}
     By Bayesian's formula,
     \begin{align*}
@@ -151,7 +177,7 @@
 %         (copied from \href{https://en.wikibooks.org/wiki/LaTeX/Algorithms}{here})}
 %         \end{algorithm}
 % \end{frame}
-
+\subsection{Code Implementation}
 \begin{frame}[fragile]
     \frametitle{{An Implementation of the Algorithm in R}}
     \framesubtitle<overlay specification>{f(y) = 6 * (y - 0.5)^2 / 7}
@@ -188,8 +214,8 @@ curve(6 * (x - 0.5)^2 / 7, from = 0,
         \column{0.5\textwidth}
         \begin{block}{Pros}
             \begin{itemize}
-                \item Deal with almost every distribution
-                \item ?
+                \item Deal with almost every distribution.
+                \item Easy to handle.
             \end{itemize}
         \end{block}
         
@@ -198,6 +224,7 @@ curve(6 * (x - 0.5)^2 / 7, from = 0,
             \begin{itemize}
                 \item Lack of efficient.
                 \item Do not perform perfectly with unbounded PDF, i.e. Beta distribution.
+                \item Do not work well with PMF.
             \end{itemize}
         \end{block}
 
@@ -209,100 +236,93 @@ curve(6 * (x - 0.5)^2 / 7, from = 0,
 \end{frame}
 
 \section[MCMC]{Markov Chain Monte Carlo Algorithm}
-\subsection{Background}
+\subsection{Background Knowledge}
 
 \begin{frame}{Background}
     Property of Markov Chain:
     \begin{itemize}
-        \item \(P(X_n = x_n |X_{n-1} = x_{n-1}\cdots X_{1} = x_1) = P(X_n = x_n |X_{n-1} = x_{n-1})\) Only depends on last state.
-        \item Invertible: If \(X_1,X_2\cdots X_n\) is MC, so do \(X_n,X_{n-1}\cdots X_1\).
-        \item 
+        \item \(P(X_n = x_n |X_{n-1} = x_{n-1}\cdots X_{1} = x_1) = P(X_n = x_n |X_{n-1} = x_{n-1})\) Next state independent of the past states and only depends on the present state.
+        % \item Invertible: If \(X_1,X_2\cdots X_n\) is MC, so do \(X_n,X_{n-1}\cdots X_1\).
+        \pause
+        \item Homogeneous: Transition matrix is independent with time.
+        \item Stationary distribution: \(\pi = \pi P\). Every finite positive homogeneous chain have unique Stationary distribution, which is given by \textit{Perron-Frobenius} theorem. The stationary distribution does not depend on initial distribution.
+    \end{itemize}
+\end{frame}
+\subsection{Metropolis Algorithm}
+\begin{frame}{MCMC Sampling: Metropolis Algorithm}
+    Suppose we want to generate a group of sample from the object PMF \(f(\cdot)\)
+\begin{enumerate}
+    \item Initialization: Choose arbitrary value \(x_0\), proposal markov chain with transition probability \(g(\cdot|\cdot)\) and set \(t = 1\).
+    \item Generate \(x^*_t \sim P(x^*_t | x_{t-1})\) and \(u \sim \operatorname{Unif}[0,1]\).
+    \item Compute \[h(x_{t-1},x^*_t) = \min\left\{1,\frac{f(x^*_t)g(x_{t-1}| x_t^*)}{f(x_{t-1})g(x^*_t | x_{t-1})}\right\}\]
+    \item If \(u < h(x_{t-1},x^*_t)\), let \(x_{t} = x_t^*\); Otherwise, let \(x_t = x_{t-1}\)
+    \item Let \(t++\). Back to the second step unless reach stationary distribution.
+\end{enumerate}
+\end{frame}
+
+% \subsection{Table}
+
+\begin{frame}{Intuition}
+    Immigration problem.
+    \begin{itemize}
+        \item To keep the population ratio stable.
+        \item Randomly reject some visa with specific probability.
+        \item Finally, reach a balance.
+        \item Aribtrary start does not affect.
+        \item Dynamic balance.
     \end{itemize}
 \end{frame}
 
-\begin{frame}{Columns}
-    \begin{columns}
-        \column{0.5\textwidth}
-        This is a text in first column.
-        $$E=mc^2$$
-        \begin{itemize}
-        \item First item
-        \item Second item
-        \end{itemize}
-        
-        \column{0.5\textwidth}
-        \begin{block}{first block}
-            columns achieves splitting the screen
-        \end{block}
-        \begin{block}{second block}
-            stack block in columns
-        \end{block}
-        
-    \end{columns}
-\end{frame}
+\begin{frame}
+    \frametitle{Another Example}
+    \centering
+    \includegraphics[width = .78\linewidth]{image3.png}
 
-\subsection{Table}
-
-\begin{frame}{Create Tables}
-    \begin{center}
-        \begin{table}[!t]  
-            % \caption{Three line}
-            % \label{table_time}
-            \begin{tabular}{ccc}  
-                \toprule   
-                first&second&third\\ 
-                \midrule       
-                1 & 2 & 3 \\ 
-                4 & 5 & 6 \\ 
-                7 & 8 & 9 \\
-                \bottomrule  
-            \end{tabular}
-        \end{table}
-    \end{center}
-\end{frame}
-
-\subsection{Math}
-
-\begin{frame}{Equation1}
-    A matrix in text must be set  smaller:
-    $\bigl(\begin{smallmatrix}
-    a&b \\ c&d
-    \end{smallmatrix} \bigr)$
-    to not increase leading in a portion of text.
-
-    \[ f(n) =
-    \begin{cases}
-        n/2       & \quad \text{if } n \text{ is even}\\
-        -(n+1)/2  & \quad \text{if } n \text{ is odd}
-    \end{cases}
-    \]
-
-    $$50 apples \times 100 apples = lots of apples^2$$
-\end{frame}
-
-\begin{frame}{Equation2}
-    $$\sum_{\substack{0<i<m \\ 0<j<n }} 
-      P(i,j)=\int\limits_a^b\prod P(i,j)$$
-
-    $$P\left(A=2\middle|\frac{A^2}{B}>4\right)$$
-
-    $$( a ), [ b ], \{ c \}, | d |, \| e \|,
-    \langle f \rangle, \lfloor g \rfloor,
-    \lceil h \rceil, \ulcorner i \urcorner$$
-\end{frame}
-
-\begin{frame}{Equation3}
-    $$Q(\alpha)=\alpha_i\alpha_jy_iy_j(x_i\cdot x_j)$$
-
-    $$Q(\alpha)=\alpha^i\alpha^jy^{(i)}y^{(j)}(x^i\cdot x^j)$$
     
-    $$\Gamma=\beta+\alpha+\gamma+\rho$$
+
+\end{frame}
+
+\subsection{Proof of Metropolis Algorithm}
+
+\begin{frame}{Proof of Metropolis Algorithm}
+    Detailed balance condition:
+    \[\delta_{xy} = m(x)P(x\to y) - m(y)P(y\to x) = 0 \]
+    One need to show that \(m(x) \varpropto f(x)\).
+    \[\frac{m(x)}{m(y)} = \frac{P(y\to x)}{P(x\to y)} = \frac{h(x,y)}{h(y,x)} = \frac{f(x)}{f(y)}\]
+
+\end{frame}
+\subsection{Code Implementation}
+\begin{frame}{Simulation: Throwing Two Dice}
+    The object PMF is:
+    \begin{align*}
+        \begin{array}{c|c|c|c|c|c|c|c|c|c|c|c}
+            \hline x & 2 & 3 & 4 & 5 & 6 & 7 & 8 & 9 & 10 & 11 & 12 \\
+            \hline f(x) & 1 & 2 & 3 & 4 & 5 & 6 & 5 & 4 & 3 & 2 & 1 \\
+            \hline
+        \end{array}
+    \end{align*}
+    We apply minimum neighborhood method:
+    \begin{align*}
+        G=\left(\begin{array}{ccccccc}
+            1 / 2 & 1 / 2 & 0 & \cdots & 0 & 0 & 0 \\
+            1 / 2 & 0 & 1 / 2 & \cdots & 0 & 0 & 0 \\
+            0 & 1 / 2 & 0 & \cdots & 0 & 0 & 0 \\
+            \vdots & \vdots & \vdots & \ddots & \vdots & \vdots & \vdots \\
+            0 & 0 & 0 & \cdots & 0 & 1 / 2 & 0 \\
+            0 & 0 & 0 & \cdots & 1 / 2 & 0 & 1 / 2 \\
+            0 & 0 & 0 & \cdots & 0 & 1 / 2 & 1 / 2
+            \end{array}\right) .
+    \end{align*}
+
 \end{frame}
 
 
 
-\section{Conclusion}
 
-\begin{frame}{End}
-    The last page.
+
+% \section{Conclusion}
+
+\begin{frame}
+    \centering \Huge
+    \emph{Thanks}
 \end{frame}
