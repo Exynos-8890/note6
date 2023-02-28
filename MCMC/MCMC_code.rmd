@@ -53,3 +53,43 @@ curve(6 * (x - 0.5)^2 / 7, from = 0, to = 2, add = TRUE, col = "red")  # add a c
 ```
 
 The code generates a random sample of numbers from a PDF using the acceptance-rejection method. The PDF is defined as f(x) = 6(x - 0.5)^(2/7) in the code. The code then plots a histogram of the generated sample along with the true PDF. The histogram is plotted using the hist function, and the true PDF is plotted using the curve function. The add = TRUE argument is used to add the curve to the existing plot, rather than creating a new plot. The col argument is used to set the color of the histogram and curve.
+
+## MCMC
+
+```{r}
+f <- c(0, 1, 2, 3, 4, 5, 6, 5, 4, 3, 2, 1)
+N <- 100000
+d <- rep(0, N)
+x <- 5
+for (i in 1:N) {
+  U <- runif(1)
+  if (x == 2) {
+    if (U < 0.5) {
+      y <- 3
+    } else {
+      y <- 2
+    }
+  } else if (x == 12) {
+    if (U < 0.5) {
+      y <- 11
+    } else {
+      y <- 12
+    }
+  } else {
+    if (U < 0.5) {
+      y <- x - 1
+    } else {
+      y <- x + 1
+    }
+  }
+  h <- min(1, f[y] / f[x])
+  U <- runif(1)
+  if (U < h) {
+    x <- y
+  }
+  d[i] <- x
+}
+a <- 1:12
+hist(d, breaks = a)
+
+```
