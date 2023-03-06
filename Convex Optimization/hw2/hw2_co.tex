@@ -1,0 +1,220 @@
+\documentclass[en,hazy,blue,12pt,device = pad]{elegantnote}
+\usepackage[breakable]{tcolorbox}
+\usepackage{amsmath,amsthm,amssymb,bm,xcolor}
+\usepackage{../codefs}
+\tcbset{breakable}
+\pagecolor{white}
+
+\title{Convex Optimization assignment 2}
+% \subtitle{week 3 and 4}
+\author{Tianlu Zhu \\ 2020571005}
+% \institute{ShanghaiTech}
+\date{}
+\begin{document}
+\maketitle
+
+\section*{Week 3}
+\subsection*{Problem 1 (2.21)}
+% Strictly positive solution of linear equations. Suppose \(A \in \mathbf{R}^{m \times n}, b \in \mathbf{R}^m\), with \(b \in \mathcal{R}(A)\). Show that there exists an \(x\) satisfying
+% \begin{align*}
+% x \succ 0, \quad A x=b
+% \end{align*}
+% if and only if there exists no \(\lambda\) with
+% \begin{align*}
+% A^T \lambda \succeq 0, \quad A^T \lambda \neq 0, \quad b^T \lambda \leq 0
+% \end{align*}
+% Hint. First prove the following fact from linear algebra: \(c^T x=d\) for all \(x\) satisfying \(A x=b\) if and only if there is a vector \(\lambda\) such that \(c=A^T \lambda, d=b^T \lambda\)
+\textit{The set of separating hyperplanes.} Suppose that \(C\) and \(D\) are disjoint subsets of \(\mathbf{R}^n\). Consider the set of \((a, b) \in \mathbf{R}^{n+1}\) for which \(a^T x \leq b\) for all \(x \in C\), and \(a^T x \geq b\) for all \(x \in D\). Show that this set is a convex cone (which is the singleton \(\{0\}\) if there is no hyperplane that separates \(C\) and \(D)\).
+
+\begin{tcolorbox}
+    \sol 
+
+    Let the set contains all the \((a,b)\) be \(S\). Since that for \((a,b)\) be the parameter of two set, \((ka)^T x \leq kb\) for all \(x\in C\) and \((ka)^T x \geq kb\) for all \(x \in D\), so \((ka,kb) \in S\), \(S\) is a cone.
+
+    For all \((a,b),(a',b')\in S\), and \(\alpha,\beta \in \R^+\), we have
+
+    \[(\alpha a+\beta a')^T x \leq (\alpha b + \beta b') \Leftarrow \begin{cases}
+        a^T x \leq b \\
+        a'^T x \leq b'
+    \end{cases} \]
+    for all \(x \in C\), and
+    \[(\alpha a+\beta a')^T x \geq (\alpha b + \beta b') \Leftarrow \begin{cases}
+        a^T x \geq b \\
+        a'^T x \geq b'
+    \end{cases} \]
+    for all \(x\in D\), so \(S \) is a convex cone.
+\end{tcolorbox}
+
+\subsection*{Problem 2 (2.24)}
+\begin{enumerate}[{ (a)}]
+    \item Express the closed convex set \(\{x \in \R_+^2 | x_1 x_2 \geq 1 \}\) as an intersection of halfspace.
+    \begin{tcolorbox}
+        \sol
+
+        Let the closed convex set be \(C\). Clearly, \(\bd C = \left\{ x \in \R_+^2 | x_1 x_2 = 1 \right\}\). Choosing all the point in \(\bd C\) and apply the supporting hyperplane theorem. That is, 
+        \[C = \bigcup _{p \in \R_+} \left\{x\in \R_+^2 | x_2 - \frac 1 p \geq - \frac{1}{x_1^2}( x_1 - p)\right\}\]
+
+    \end{tcolorbox}
+    \item Let \(C = \left\{x \in \R^n | \Vert x \Vert _\infty  \leq 1\right\}\), the \(l _\infty\) norm unit ball in \(\R^n\), and let \(\hat x\) be the point in the boundary of \(C\). Identify the supporting hyperplane theorem of \(C\) at \(\hat x\) explicitly.
+    \begin{tcolorbox}
+        \sol
+
+        Suppose we have \(s^T x \geq s^T \hat x\) for all \(x \in C\), for which
+        \begin{align*}
+            \begin{cases}
+                s < 0, \hat x = 1 \\
+                s > 0, \hat x = -1 \\
+                s = 0, \text{otherwise}
+            \end{cases}
+        \end{align*}
+    \end{tcolorbox}
+
+\end{enumerate}
+
+\subsection*{Problem 3 (2.30,2.31)}
+\vspace*{-2em}
+{\large \[x\nprec_K x\]}
+\vspace{-1em}
+\begin{tcolorbox}
+    \pf
+
+    If \(x\prec_K x\), we have \(x - x = 0 \in \int K\), which means there exist a tiny ball \(B(0,\epsilon) \in K\), and then \(\epsilon,-\epsilon \in K\), which is contradicted to the principle "pointed".
+\end{tcolorbox}
+
+% {\centering \normalsiz}
+\begin{center}
+    \(K^*\) is a convex cone although \(K\) is not convex.
+\end{center}
+\begin{tcolorbox}
+    \pf
+
+    Suppose \(x \in K,y,z \in K^*\), so \(x^Ty\geq 0 , x^T z \geq 0\), also \(x^T(\alpha y + \beta z) \geq 0\) for which \(\alpha, \beta \geq 0, \alpha + \beta = 1\). Then \(\alpha y + \beta z \in K^*\), and \(K^*\) is convex.
+\end{tcolorbox}
+
+\subsection*{Problem 4 (2.33)}
+\textit{The monotone nonnegative cone.} We define the monotone nonnegative cone as
+\begin{align*}
+K_{\mathrm{m}+}=\left\{x \in \mathbf{R}^n \mid x_1 \geq x_2 \geq \cdots \geq x_n \geq 0\right\} .
+\end{align*}
+i.e., all nonnegative vectors with components sorted in nonincreasing order.
+
+(a) Show that \(K_{\mathrm{m+}}\) is a proper cone.
+\begin{tcolorbox}
+    \sol
+
+    Let \(x,y \in K_{m+}\), \(tx + (1-t )y\) satisfying
+    \[tx_1 + (1-t)y_1 \geq tx_1 + (1-t)y_2 \geq tx_2 + (1-t)y_2 \geq tx_3 + (1-t)y_3 \geq \cdots \geq 0\]
+    So \(tx + (1-t)y \in K_{m+}\), and the cone is convex.
+
+    The boundary of \(K_{m+}\) is \(\bigcap _{i,j = 1}^n \left\{x \in \R^n | x_i = x_j \right\} \in K_{m+}\), so the cone is closed.
+
+    As above, \(\bd K \neq K\), so \(\int K \neq \varnothing\), and the cone is solid.
+
+    For all \(0\leq i\leq n\), \(x_i \geq 0\), so the cone is pointed.
+\end{tcolorbox}
+(b) Find the dual cone \(K_{\mathrm{m}+}^*\). Hint. Use the identity
+\begin{align*}
+\begin{aligned}
+\sum_{i=1}^n x_i y_i= & \left(x_1-x_2\right) y_1+\left(x_2-x_3\right)\left(y_1+y_2\right)+\left(x_3-x_4\right)\left(y_1+y_2+y_3\right)+\cdots \\
+& +\left(x_{n-1}-x_n\right)\left(y_1+\cdots+y_{n-1}\right)+x_n\left(y_1+\cdots+y_n\right)
+\end{aligned}
+\end{align*}
+\begin{tcolorbox}
+    \sol
+
+    Using the hint, we see that \(y^T x \geq 0\) for all \(x \in K_{\mathrm{m}+}\) if and only if
+    \begin{align*}
+    y_1 \geq 0, \quad y_1+y_2 \geq 0, \quad \ldots, y_1+y_2+\cdots+y_n \geq 0
+    \end{align*}
+    Therefore
+    \begin{align*}
+    K_{\mathrm{m}+}^*=\left\{y\ \bigg{|} \sum_{i=1}^k y_i \geq 0, k=1, \ldots, n\right\}
+    \end{align*}
+\end{tcolorbox}
+
+\section*{Week 4}
+\subsection*{Problem 1 (3.6)}
+\textit{Functions and epigraphs.} When is the epigraph of a function a halfspace? When is the epigraph of a function a convex cone? When is the epigraph of a function a polyhedron?
+
+\begin{tcolorbox}
+    \sol
+
+    For halfspace, the function is affine, so \(\left\{x | a^T x + b \geq 0 \right\}\) is a halfspace.
+
+    For convex cone, let the function satisfy \(tf(y) \leq f(ty), t \in \R_+\). Then \(tx + (1-t) x' \geq f(ty+(1-t)y')\) and the epigraph is convex cone.
+
+    For polyhedron, let the function be piecewisely affine. Then the epigraph is the intersection of many halfspace, which is exactly polyhedron.
+\end{tcolorbox}
+
+\subsection*{Problem 2 (3.17,3.18)}
+Suppose \(p < 1, p \neq 0\). Show that the function
+\[f(x) = \left( \sumi x_i^p \right)^{1/p}\]
+with \(\dom f = \R_{++}^n\) is concave.
+
+\begin{tcolorbox}
+    \sol
+
+    % The Hessian matrix is:
+    % \begin{align*}
+    %     \nabla^2 f(x) = \begin{bmatrix}
+            
+    %     \end{bmatrix}
+    % \end{align*}
+    The first order derivative is 
+    \[\nabla f(x) = \left( \frac{f(x)}{x_i} \right)^{1-p}\]
+    And for \(i \neq j \),
+    \[\nabla ^2 f(x) = \frac{1-p}{f(x)} \left( \frac{f(x)^2}{x_i x_j } \right)\]
+    For \(i = j \)
+    \[\nabla ^2 f(x) = \frac{1-p}{f(x)}\left(\frac{f(x)^2}{x_i^2}\right)^{1-p}-\frac{1-p}{x_i}\left(\frac{f(x)}{x_i}\right)^{1-p}\]
+    By Cauchy-Schwarz inequality:
+    \[y^T \nabla^2 f(x) y=\frac{1-p}{f(x)}\left(\left(\sum_{i=1}^n \frac{y_i f(x)^{1-p}}{x_i^{1-p}}\right)^2-\sum_{i=1}^n \frac{y_i^2 f(x)^{2-p}}{x_i^{2-p}}\right) \leq 0\]
+\end{tcolorbox}
+
+\begin{center}
+    Show that \(f(x) = \tr(X^{-1})\) is convex on \(\dom f(x) = S_{++}^n\)
+\end{center}
+
+\begin{tcolorbox}
+    \sol
+
+    We notate \(g(t) = f(Z+tV)\) where \(Z+tV \in S_{++}^n\). Suppose that we have diaginal \(Z^{-1/2}V Z^{-1/2} = Q\Lambda Q^T\)
+    \begin{align*}
+        g(t) &= \tr (Z + tV)\\
+        &= \tr \left( Z^{-1/2} \left( I + tZ^{-1/2}V Z^{-1/2} \right)^{-1} Z^{-1/2} \right) \\
+        &= \tr \left( Z^{-1}Q\left( I + t\Lambda  \right)^{-1} Q^T \right) \\
+        &= \tr \sumi \left( Z^{-1}Q Q^T  \right)_{ii}(1+t \lambda )
+    \end{align*}
+    Since that \(1+t\lambda\) is convex, the weighted sum of convex function preserves convex.
+\end{tcolorbox}
+
+\subsection*{Problem 3 (3.29)}
+\textit{Representation of piecewise-linear convex functions.} A convex function \(f: \mathbf{R}^n \rightarrow \mathbf{R}\), with \(\operatorname{dom} f=\mathbf{R}^n\), is called piecewise-linear if there exists a partition of \(\mathbf{R}^n\) as
+\begin{align*}
+\mathbf{R}^n=X_1 \cup X_2 \cup \cdots \cup X_L
+\end{align*}
+where int \(X_i \neq \emptyset\) and int \(X_i \cap\) int \(X_j=\emptyset\) for \(i \neq j\), and a family of affine functions \(a_1^T x+b_1, \ldots, a_L^T x+b_L\) such that \(f(x)=a_i^T x+b_i\) for \(x \in X_i\).
+Show that this means that \(f(x)=\max \left\{a_1^T x+b_1, \ldots, a_L^T x+b_L\right\}\)
+
+\begin{tcolorbox}
+    \sol
+
+    % By Jensen's inequality: \(f(y + t(x-y)) \leq f(y) + t\left( f(x) - f(y) \right)\), so \(f(x) \geq f(y) + \dfrac{f(y+t(x-y))-f(y)}{t}\).
+    First we suppose \(\overline{X_i}\cap \overline{X_j } = t\). For any \(x \in X_i, y \in X_j \), we have:
+    \[\frac{(y-t)f(y) - (t-x)f(x)}{y-x} \geq f(t)\]
+    That is:
+    \[\frac{(y-t)(a_j^T y +b_j ) - (t-x)(a_i^T x +b_i)}{y-x} \geq a_i ^T t + b_i\]
+    So \[a_i ^T x + b_i \geq a_j^T x +b_j\]
+    Consider \(\overline{X_i}\cap \overline{X_j } = \varnothing\), we can find the neighborhood and transit it to.
+\end{tcolorbox}
+
+
+\subsection*{Problem 4 (3.36.1)}
+Derive the conjugates function of \(f(x) = \max_{i = 1,2,\cdots ,n} \{x_i\}\) on \(\R^n\)
+\begin{tcolorbox}
+    \sol
+
+    \begin{align*}
+        f^*(y)= \begin{cases}0 & \text { if } y \succeq 0, \quad \mathbf{1}^T y=1 \\ \infty & \text { otherwise }\end{cases}
+    \end{align*}
+\end{tcolorbox}
+\end{document}
